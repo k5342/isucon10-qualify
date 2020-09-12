@@ -45,7 +45,3 @@ CREATE TABLE isuumo.chair
     INDEX idx_price (price),
     INDEX idx_kind (kind)
 );
-
-SET GLOBAL SLOW_QUERY_LOG=ON;
-set global slow_query_log_file = '/tmp/mysql-slow.log';
-set global long_query_time = 0.5;
