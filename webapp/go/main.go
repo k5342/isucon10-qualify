@@ -11,9 +11,9 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
-	"runtime"
 	"strconv"
 	"strings"
+	"runtime"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
@@ -843,19 +843,7 @@ func searchRecommendedEstateWithChair(c echo.Context) error {
 	w := chair.Width
 	h := chair.Height
 	d := chair.Depth
-	query = `
-SELECT * FROM ((SELECT * FROM estate WHERE door_width >= ? AND door_height >= ?)
-UNION
-(SELECT * FROM estate WHERE door_width >= ? AND door_height >= ?)
-UNION
-(SELECT * FROM estate WHERE door_width >= ? AND door_height >= ?)
-UNION
-(SELECT * FROM estate WHERE door_width >= ? AND door_height >= ?)
-UNION
-(SELECT * FROM estate WHERE door_width >= ? AND door_height >= ?)
-UNION
-(SELECT * FROM estate WHERE door_width >= ? AND door_height >= ?)) as tmp
-ORDER BY popularity DESC, id ASC LIMIT ?`
+	query = `SELECT * FROM estate WHERE (door_width >= ? AND door_height >= ?) OR (door_width >= ? AND door_height >= ?) OR (door_width >= ? AND door_height >= ?) OR (door_width >= ? AND door_height >= ?) OR (door_width >= ? AND door_height >= ?) OR (door_width >= ? AND door_height >= ?) ORDER BY popularity DESC, id ASC LIMIT ?`
 	err = db.Select(&estates, query, w, h, w, d, h, w, h, d, d, w, d, h, Limit)
 	if err != nil {
 		if err == sql.ErrNoRows {
@@ -917,7 +905,7 @@ func searchEstateNazotte(c echo.Context) error {
 
 	var re EstateSearchResponse
 	re.Estates = estatesInPolygon
-
+	
 	re.Count = int64(len(re.Estates))
 
 	return c.JSON(http.StatusOK, re)
