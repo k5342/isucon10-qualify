@@ -897,6 +897,7 @@ func searchEstateNazotte(c echo.Context) error {
 		} else {
 			estatesInPolygon = append(estatesInPolygon, validatedEstate)
 			if len(estatesInPolygon) > NazotteLimit {
+				estatesInPolygon = estatesInPolygon[:NazotteLimit]
 				break
 			}
 		}
