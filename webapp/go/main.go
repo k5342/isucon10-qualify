@@ -11,7 +11,6 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
-	"runtime"
 	"strconv"
 	"strings"
 
@@ -241,10 +240,6 @@ func init() {
 }
 
 func main() {
-	runtime.SetBlockProfileRate(1)
-	go func() {
-		log.Print(http.ListenAndServe("0.0.0.0:9999", nil))
-	}()
 	// Echo instance
 	e := echo.New()
 	e.Debug = true
