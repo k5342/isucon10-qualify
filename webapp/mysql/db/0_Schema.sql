@@ -21,7 +21,9 @@ CREATE TABLE isuumo.estate
     INDEX idx_latitude (latitude),
     INDEX odx_longitude (longitude),
     INDEX idx_door_height (door_height),
-    INDEX idx_door_width (door_width)
+    INDEX idx_door_width (door_width),
+    INDEX idx_popularity (popularity),
+    INDEX idx_rent (rent)
 );
 
 CREATE TABLE isuumo.chair
@@ -38,5 +40,12 @@ CREATE TABLE isuumo.chair
     features    VARCHAR(64)     NOT NULL,
     kind        VARCHAR(64)     NOT NULL,
     popularity  INTEGER         NOT NULL,
-    stock       INTEGER         NOT NULL
+    stock       INTEGER         NOT NULL,
+    INDEX idx_stock (stock),
+    INDEX idx_price (price),
+    INDEX idx_kind (kind)
 );
+
+SET GLOBAL SLOW_QUERY_LOG=ON;
+set global slow_query_log_file = '/tmp/mysql-slow.log';
+set global long_query_time = 0.5;
