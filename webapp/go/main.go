@@ -13,6 +13,7 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
+	"runtime"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
@@ -242,7 +243,7 @@ func init() {
 func main() {
 	runtime.SetBlockProfileRate(1)
 	go func() {
-		log.Println(http.ListenAndServe("0.0.0.0:9999", nil))
+		log.Print(http.ListenAndServe("0.0.0.0:9999", nil))
 	}()
 	// Echo instance
 	e := echo.New()
