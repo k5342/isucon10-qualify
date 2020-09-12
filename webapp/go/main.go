@@ -877,6 +877,7 @@ func searchEstateNazotte(c echo.Context) error {
 														latitude <= ? AND latitude >= ?
 														AND longitude <= ? AND longitude >= ?) as a
 												WHERE ST_Contains(ST_PolygonFromText(%s), POINT(latitude, longitude))
+												ORDER BY popularity DESC, id ASC
 												LIMIT ?`, coordinates.coordinatesToText())
 	err = db.Select(&estatesInPolygon, query, b.BottomRightCorner.Latitude, b.TopLeftCorner.Latitude, b.BottomRightCorner.Longitude, b.TopLeftCorner.Longitude, NazotteLimit)
 	if err == sql.ErrNoRows {
