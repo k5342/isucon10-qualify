@@ -7,11 +7,13 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	_ "net/http/pprof"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"strconv"
 	"strings"
+	"runtime"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
@@ -239,6 +241,10 @@ func init() {
 }
 
 func main() {
+	runtime.SetBlockProfileRate(1)
+	go func() {
+		log.Print(http.ListenAndServe("0.0.0.0:9999", nil))
+	}()
 	// Echo instance
 	e := echo.New()
 	e.Debug = true
